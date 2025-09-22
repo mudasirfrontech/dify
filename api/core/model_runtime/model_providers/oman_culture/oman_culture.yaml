@@ -1,0 +1,25 @@
+provider: oman_culture
+label:
+  en_US: Oman Culture LLM
+icon_small:
+  en_US: icon_s_en.svg
+icon_large:
+  en_US: icon_l_en.svg
+help:
+  title:
+    en_US: How to use Oman Culture LLM
+  url:
+    en_US: https://your-docs-url
+supported_model_types:
+- llm
+configurate_methods:
+- customizable-model
+provider_credential_schema:
+  credential_form_schemas:
+    - variable: model_path
+      type: text-input
+      label:
+        en_US: Model Path
+      required: true
+      placeholder:
+        en_US: Path to your model directory (e.g., api/models/oman_culture_full)

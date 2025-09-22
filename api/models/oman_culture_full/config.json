@@ -1,0 +1,4 @@
+{
+  "architectures": ["AutoModelForCausalLM"],
+  "model_type": "causal-lm"
+}

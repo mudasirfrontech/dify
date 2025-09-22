@@ -597,6 +597,7 @@ services:
       PLUGIN_REMOTE_INSTALL_PORT: ${EXPOSE_PLUGIN_DEBUGGING_PORT:-5003}
       PLUGIN_MAX_PACKAGE_SIZE: ${PLUGIN_MAX_PACKAGE_SIZE:-52428800}
       INNER_API_KEY_FOR_PLUGIN: ${PLUGIN_DIFY_INNER_API_KEY:-QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1}
+      MODEL_PROVIDER_OLLAMA_API_BASE_URL: http://ollama:11434
     depends_on:
       db:
         condition: service_healthy
@@ -624,14 +625,16 @@ services:
       SENTRY_PROFILES_SAMPLE_RATE: ${API_SENTRY_PROFILES_SAMPLE_RATE:-1.0}
       PLUGIN_MAX_PACKAGE_SIZE: ${PLUGIN_MAX_PACKAGE_SIZE:-52428800}
       INNER_API_KEY_FOR_PLUGIN: ${PLUGIN_DIFY_INNER_API_KEY:-QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1}
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_started
+      MODEL_PROVIDER_OLLAMA_API_BASE_URL: http://ollama:11434
+# Ollama service for local models
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
     volumes:
-      # Mount the storage directory to the container, for storing user files.
-      - ./volumes/app/storage:/app/api/storage
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
     networks:
       - ssrf_proxy_network
       - default
@@ -1355,3 +1358,4 @@ networks:
 volumes:
   oradata:
   dify_es01_data:
+  ollama_data:
